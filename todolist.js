@@ -3,7 +3,7 @@ var ADD_NEW_TODO = (function() {
         ENTER_KEYCODE : 13
     };
 
-    this.sTemplate = "" +
+    this.sTemplate =
         "<li>" +
             "<div class='view'>" +
                 "<input class='toggle' type='checkbox' checked>" +
@@ -13,20 +13,24 @@ var ADD_NEW_TODO = (function() {
         "</li>";
 
     var createNewTodoDomString = function(sTodo) {
-        var sLiDom = Mustache.render(this.sTemplate, {todo : sTodo});
-        return sLiDom;
+        var sDom = Mustache.render(this.sTemplate, {todo : sTodo});
+        return sDom;
+    };
+
+    var addNewTodoDom = function(event) {
+        if (event.keyCode === this.CONST_NUM.ENTER_KEYCODE) {
+            var sTodo = event.target.value;
+            var sDom = createNewTodoDomString(sTodo);
+
+            document.getElementById("todo-list").insertAdjacentHTML("beforeend", sDom);
+
+            event.target.value = "";
+        }
     };
 
     document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("new-todo").addEventListener("keydown", function (e) {
-            if (e.keyCode === this.CONST_NUM.ENTER_KEYCODE) {
-                var sTodo = e.target.value;
-                var sDom = createNewTodoDomString(sTodo);
-
-                document.getElementById("todo-list").insertAdjacentHTML('beforeend', sDom);
-
-                e.target.value = "";
-            }
-        }.bind(this));
-    }.bind(this));
+            addNewTodoDom(e);
+        });
+    });
 })();
