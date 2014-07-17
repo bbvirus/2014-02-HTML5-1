@@ -2,38 +2,28 @@ var ADD_NEW_TODO = (function() {
     this.CONST_NUM = {
         ENTER_KEYCODE : 13
     };
-    var createNewTodoElem = function(sTodo) {
-        var elLi = document.createElement("li");
 
-        var elDiv = document.createElement("div");
-        elDiv.className = "view";
+    this.sTemplate = "" +
+        "<li>" +
+            "<div class='view'>" +
+                "<input class='toggle' type='checkbox' checked>" +
+                "<label>{{todo}}</label>" +
+                "<button class='destroy'></button>" +
+            "</div>" +
+        "</li>";
 
-        var elInput = document.createElement("input");
-        elInput.className = "toggle";
-        elInput.setAttribute("type", "checkbox");
-
-        var elLabel = document.createElement("label");
-        elLabel.innerText = sTodo;
-
-        var elButton = document.createElement("button");
-        elButton.className = "destroy";
-
-        elDiv.appendChild(elInput);
-        elDiv.appendChild(elLabel);
-        elDiv.appendChild(elButton);
-
-        elLi.appendChild(elDiv);
-
-        return elLi;
-    }
+    var createNewTodoDomString = function(sTodo) {
+        var sLiDom = Mustache.render(this.sTemplate, {todo : sTodo});
+        return sLiDom;
+    };
 
     document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("new-todo").addEventListener("keydown", function (e) {
             if (e.keyCode === this.CONST_NUM.ENTER_KEYCODE) {
                 var sTodo = e.target.value;
-                var elLi = createNewTodoElem(sTodo);
+                var sDom = createNewTodoDomString(sTodo);
 
-                document.getElementById("todo-list").appendChild(elLi);
+                document.getElementById("todo-list").insertAdjacentHTML('beforeend', sDom);
 
                 e.target.value = "";
             }
