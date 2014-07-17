@@ -1,0 +1,7 @@
+<li class="view">
+	<div class="view">
+		<input class="toggle" type="checkbox">
+		<label>{{text}}</label>
+		<button class="destroy"></button>
+	</div>
+</li>
