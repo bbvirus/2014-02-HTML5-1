@@ -6,7 +6,7 @@ var ADD_NEW_TODO = (function() {
     this.sTemplate =
         "<li>" +
             "<div class='view'>" +
-                "<input class='toggle' type='checkbox' checked>" +
+                "<input class='toggle' type='checkbox'>" +
                 "<label>{{todo}}</label>" +
                 "<button class='destroy'></button>" +
             "</div>" +
