@@ -1,10 +1,7 @@
-// <li>
-// 	<div class="view">
-// 		<input class="toggle" type="checkbox">
-// 		<label>타이틀</label>
-// 		<button class="destroy"></button>
-// 	</div>
-// </li>
+var KEYCODE = {
+	ENTER : 13
+}
+
 
 var makeTodo = function(todo) {
 	var li = document.createElement("li");
@@ -27,11 +24,20 @@ var makeTodo = function(todo) {
 	return li;
 };
 
+var makeTodoT = function(todo) {
+	var source   = document.getElementById("li-template").innerHTML;
+	var template = Handlebars.compile(source);
+	var context  = {labelText: todo, liType: "{}"};	
+	var html     = template(context);
+	return html;
+}
+
 var addTodo = function(e) {
-var KEY_ENTER = 13;
-if (e.keyCode == KEY_ENTER) {
-	var todo = makeTodo(document.getElementById("new-todo").value);
-	document.getElementById("todo-list").appendChild(todo);
+if (e.keyCode == KEYCODE.ENTER) {
+	var todo = makeTodoT(document.getElementById("new-todo").value);
+	//document.getElementById("todo-list").appendChild(todo);
+	document.getElementById("todo-list").insertAdjacentHTML("afterbegin",todo);
+	document.getElementById("new-todo").value = "";	
 	}
 };
 
