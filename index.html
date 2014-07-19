@@ -5,6 +5,7 @@
 		<title>HTML5 Programming - 1 Class</title>
 		<link rel="stylesheet" href="asset/base.css">
 		<script type="text/javascript" src="todolist.js"></script>
+        <script type="text/javascript" src="underscore.js"></script>
 	</head>
 	<body>
 		<section id="todoapp">
@@ -61,5 +62,16 @@
 			<p>Refactored by <a href="https://github.com/cburgmer">Christoph Burgmer</a></p>
 			<p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
 		</footer>
+        
+        	<script id= "viewString" type="templeteString">
+		<li >
+			<div class="view">
+				<input class="toggle" type="checkbox" {}>
+				<label><%= text %></label>
+				<button class="destroy"></button>
+			</div>
+		</li>
+            </script>
+        
 	</body>
 </html>
