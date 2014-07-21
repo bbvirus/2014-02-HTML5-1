@@ -6,6 +6,10 @@ var elements = {
 	elDestroyButton : ""
 }
 
+var utility = {
+	browserType : ""
+}
+
 var makeTodo = function(todo) {
 	var template = $('#todo-template').html();
 	Mustache.parse(template); 
@@ -22,7 +26,8 @@ var addNewTodo = function(e){
 		var appendedTodo = $('#todo-list').append(todo);
 		elements.elNewTodo.value = "";
 		var lastAppendedTodo = appendedTodo[0].lastElementChild;
-		
+		lastAppendedTodo.style.opacity = 1;
+/*
 		lastAppendedTodo.style.opacity = 0;
 		var i = 0;
 		var key = setInterval(function(){
@@ -33,7 +38,7 @@ var addNewTodo = function(e){
 		 	}
 		 	i++;
 	 	}, 16)
-		
+*/
 		
 		var toggle = lastAppendedTodo.querySelector(".toggle");
 		toggle.addEventListener("click", completedTodo, false);
@@ -51,16 +56,45 @@ var completedTodo = function(e) {
 	} else {
 		li.className = "";
 	}
-
-	console.log(li);
 }
 
+var featureDetector = function() {
+		// 해당브라우져에서 동작가능한 playStatus를 찾아서 해당 타입을 resultFeatureDetector에 저장 해준다.
+		var result;
+		var elForCheck = document.querySelector("body");
+		
+		var status = {
+			"webkitTransitionEnd" : typeof elForCheck.style.webkitTransform,
+			"mozTransitionEnd" : typeof elForCheck.style.MozTransform,
+			"OTransitionEnd" : typeof elForCheck.style.OTransform,
+			"msTransitionEnd" : typeof elForCheck.style.msTransform,
+			"transitionEnd" : typeof elForCheck.style.transform
+		}
+
+		for ( var key in status) {
+			console.log(status[key]);
+			if (status[key] !== "undefined") {
+				result = key;
+			}
+		}
+		
+		return result;
+	}
+
 var destroyTodo = function(e) {
-	console.log("hehe");
 	var li = e.currentTarget.parentNode.parentNode;
 	var ul = li.parentNode;
+	console.log(li);
+	li.style.opacity = 0;
+
+	li.addEventListener(utility.browserType, function() { 
+		ul.removeChild(li);
+	}, false);
 	
-	li.style.opacity = 1;
+	
+	
+	//ul.removeChild(li);
+/*
 	var i = 0;
 	
 	var key = setInterval(function() {
@@ -73,6 +107,7 @@ var destroyTodo = function(e) {
 	 	i++;
 	}, 16)
 	
+*/
 	
 }
 
@@ -80,6 +115,8 @@ var init = function() {
 	//keydown 이벤트에  li을 추가하는 함수 등록
 	elements.elNewTodo = document.getElementById("new-todo");
 	elements.elNewTodo.addEventListener("keydown", addNewTodo, false);
+	
+	utility.browserType = featureDetector();
 }
 
 //window.addEventListener("load",init);
