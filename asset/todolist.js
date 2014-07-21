@@ -2,35 +2,15 @@ var ENTER_KEYCODE = 13;
 
 var elements = {
 	elNewTodo : "",
+	elCompletedToggle : "",
+	elDestroyButton : ""
 }
 
 var makeTodo = function(todo) {
 	var template = $('#todo-template').html();
 	Mustache.parse(template); 
 	var rendered = Mustache.render(template, {text: todo});
-/*
-	var li = document.createElement("li");
-		
-	var div = document.createElement("div");
-	div.className = "view";
 	
-	var input = document.createElement("input");
-	input.className = "toggle";
-	input.setAttribute("type", "checkbox");
-	
-	var label = document.createElement("label");
-	label.innerText = text;
-	
-	var button = document.createElement("button");
-	button.className = "destroy";
-	
-	div.appendChild(input);
-	div.appendChild(label);
-	div.appendChild(button);
-	
-	li.appendChild(div);
-		
-*/
 	return rendered;
 }
 
@@ -39,10 +19,61 @@ var addNewTodo = function(e){
 	if(e.keyCode === ENTER_KEYCODE) {
 		
 		var todo = makeTodo(elements.elNewTodo.value);
-		//document.getElementById("todo-list").innerHTML(todo);
-		$('#todo-list').append(todo);
+		var appendedTodo = $('#todo-list').append(todo);
 		elements.elNewTodo.value = "";
+		var lastAppendedTodo = appendedTodo[0].lastElementChild;
+		
+		lastAppendedTodo.style.opacity = 0;
+		var i = 0;
+		var key = setInterval(function(){
+	 		if(i >= 50) {
+			 	clearInterval(key);
+		 	} else {
+		 		lastAppendedTodo.style.opacity =  0.02*i;	
+		 	}
+		 	i++;
+	 	}, 16)
+		
+		
+		var toggle = lastAppendedTodo.querySelector(".toggle");
+		toggle.addEventListener("click", completedTodo, false);
+		
+		var button = lastAppendedTodo.querySelector(".destroy");
+		button.addEventListener("click", destroyTodo, false);
 	}
+}
+
+var completedTodo = function(e) {
+	var input = e.currentTarget;
+	var li = input.parentNode.parentNode;
+	if(input.checked) {
+		li.className = "completed";
+	} else {
+		li.className = "";
+	}
+
+	console.log(li);
+}
+
+var destroyTodo = function(e) {
+	console.log("hehe");
+	var li = e.currentTarget.parentNode.parentNode;
+	var ul = li.parentNode;
+	
+	li.style.opacity = 1;
+	var i = 0;
+	
+	var key = setInterval(function() {
+	 	if(i >= 50) {
+		 	clearInterval(key);
+		 	ul.removeChild(li);
+	 	} else {
+	 		li.style.opacity = 1 - 0.02*i;	
+	 	}
+	 	i++;
+	}, 16)
+	
+	
 }
 
 var init = function() {
