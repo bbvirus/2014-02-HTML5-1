@@ -1,5 +1,7 @@
-## 1반은 아래와 같이 프로젝트를 진행합니다.
+2014-02-HTML5-1
+===============
 
+<<<<<<< HEAD
 
 ### 1. fork하기
 (https://github.com/NHNNEXT/2014-02-HTML5-1/)
@@ -62,3 +64,6 @@ git rebase upstream/master
 ### 9. 본인 github에서 교수한데 pullrequest보내기.
 
 ### 10. 4번부터 다시 시작.
+=======
+2014학년 HTML5프로그래밍 1반
+>>>>>>> change todoList function with template library
