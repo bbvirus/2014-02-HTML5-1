@@ -4,8 +4,17 @@
 		<meta charset="utf-8">
 		<title>HTML5 Programming - 1 Class</title>
 		<link rel="stylesheet" href="asset/base.css">
-		<script type = "text/javascript" src="todolist.js"></script>
-		<script type = "text/javascript" src="underscore.js"></script>
+		<script type="text/javascript" src="js/todolist.js"></script>
+		<script type="text/javascript" src="js/handlebars-v1.3.0.js"></script>
+		<script id="li-template" type="text/x-handlebars-template">
+			<li class={{liType}}>
+				<div class="view">
+					<input class="toggle" type="checkbox" >
+					<label>{{labelText}}</label>
+					<button class="destroy"></button>
+				</div>
+			</li>
+		</script>
 	</head>
 	<body>
 		<section id="todoapp">
