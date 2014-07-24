@@ -5,29 +5,20 @@ var todoList = document.getElementById('todo-list');
 var todoInput = document.getElementById('new-todo');
 
 function getTodo(inputValue) {
-
-	var todoTemplate = _.template(
-		'<li>' +
-			'<div class="view">' +
-				'<input class="toggle" type="checkbox"></input>' +
-				'<label><%- value %></label>' +
-				'<button class="destroy"></button>' +
-			'</div>' +
-		'</li>'
-		);
+	var todoTemplate = _.template(document.getElementById('todo').innerHTML);
 	
-	var li = todoTemplate({value: inputValue});
+	var todo = todoTemplate({value: inputValue});
 
-	return li;
+	return todo;
 }
 
 function insertTODO(e) {
 	var keyCode = e.keyCode;
 	
 	if (keyCode === KEY_CODE_ENTER) {
-		var li = getTodo(this.value);
+		var todo = getTodo(this.value);
 
-		todoList.insertAdjacentHTML('beforeend', li);
+		todoList.insertAdjacentHTML('beforeend', todo);
 		this.value = '';
 	}
 }
