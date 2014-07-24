@@ -1,13 +1,11 @@
 var ENTER_KEYCODE = 13;
 
 var elements = {
-	elNewTodo : "",
-	elCompletedToggle : "",
-	elDestroyButton : ""
+	elNewTodo : ""
 }
 
 var utility = {
-	browserType : ""
+	transitionEnd : ""
 }
 
 var makeTodo = function(todo) {
@@ -25,41 +23,43 @@ var addNewTodo = function(e){
 		var todo = makeTodo(elements.elNewTodo.value);
 		var appendedTodo = $('#todo-list').append(todo);
 		elements.elNewTodo.value = "";
-		var lastAppendedTodo = appendedTodo[0].lastElementChild;
-		lastAppendedTodo.style.opacity = 1;
-/*
-		lastAppendedTodo.style.opacity = 0;
-		var i = 0;
-		var key = setInterval(function(){
-	 		if(i >= 50) {
-			 	clearInterval(key);
-		 	} else {
-		 		lastAppendedTodo.style.opacity =  0.02*i;	
-		 	}
-		 	i++;
-	 	}, 16)
-*/
-		
-		var toggle = lastAppendedTodo.querySelector(".toggle");
-		toggle.addEventListener("click", completedTodo, false);
-		
-		var button = lastAppendedTodo.querySelector(".destroy");
-		button.addEventListener("click", destroyTodo, false);
+		$("#todo-list li:last-child").css("opacity", 1);
+		//var lastAppendedTodo = appendedTodo[0].lastElementChild;
+		//lastAppendedTodo.style.opacity = 1;
+		$("#todo-list li:last-child .toggle").on("click", completedTodo);
+		//var toggle = lastAppendedTodo.querySelector(".toggle");
+		//toggle.addEventListener("click", completedTodo, false);
+		$("#todo-list li:last-child .destroy").on("click", destroyTodo);
+		//var button = lastAppendedTodo.querySelector(".destroy");
+		//button.addEventListener("click", destroyTodo, false);
 	}
 }
 
 var completedTodo = function(e) {
-	var input = e.currentTarget;
-	var li = input.parentNode.parentNode;
-	if(input.checked) {
-		li.className = "completed";
+	var li = $(this).parent().parent();
+
+	if($(this).prop("checked")) {
+		li.addClass("completed");
 	} else {
-		li.className = "";
+		li.removeClass("completed");
 	}
 }
 
+var destroyTodo = function(e) {
+	var li = $(this).parent().parent();
+	var ul = li.parent();
+	li.css("opacity", 0);
+	//li.style.opacity = 0;
+	$(this).parent().parent().on(utility.transitionEnd, function() { 
+		li.empty();
+	});
+	// li.addEventListener(utility.transitionEnd, function() { 
+	// 	ul.removeChild(li);
+	// }, false);
+}
+
 var featureDetector = function() {
-		// 해당브라우져에서 동작가능한 playStatus를 찾아서 해당 타입을 resultFeatureDetector에 저장 해준다.
+		// 해당브라우져에서 동작가능한 transitionEnd 타입을 찾아서 해당 타입을 result로 반환 해준다.
 		var result;
 		var elForCheck = document.querySelector("body");
 		
@@ -72,7 +72,6 @@ var featureDetector = function() {
 		}
 
 		for ( var key in status) {
-			console.log(status[key]);
 			if (status[key] !== "undefined") {
 				result = key;
 			}
@@ -81,42 +80,16 @@ var featureDetector = function() {
 		return result;
 	}
 
-var destroyTodo = function(e) {
-	var li = e.currentTarget.parentNode.parentNode;
-	var ul = li.parentNode;
-	console.log(li);
-	li.style.opacity = 0;
-
-	li.addEventListener(utility.browserType, function() { 
-		ul.removeChild(li);
-	}, false);
-	
-	
-	
-	//ul.removeChild(li);
-/*
-	var i = 0;
-	
-	var key = setInterval(function() {
-	 	if(i >= 50) {
-		 	clearInterval(key);
-		 	ul.removeChild(li);
-	 	} else {
-	 		li.style.opacity = 1 - 0.02*i;	
-	 	}
-	 	i++;
-	}, 16)
-	
-*/
-	
-}
-
 var init = function() {
 	//keydown 이벤트에  li을 추가하는 함수 등록
-	elements.elNewTodo = document.getElementById("new-todo");
-	elements.elNewTodo.addEventListener("keydown", addNewTodo, false);
+	//elements.elNewTodo = $("#new-todo");
+
+	elements.elNewTodo = $("#new-todo")[0];
+	//document.getElementById("new-todo");
+	//elements.elNewTodo.addEventListener("keydown", addNewTodo, false);
+	$("#new-todo").on("keydown", addNewTodo);
 	
-	utility.browserType = featureDetector();
+	utility.transitionEnd = featureDetector();
 }
 
 //window.addEventListener("load",init);
