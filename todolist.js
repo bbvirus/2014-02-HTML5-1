@@ -5,24 +5,18 @@ var todoList = document.getElementById('todo-list');
 var todoInput = document.getElementById('new-todo');
 
 function getTodo(inputValue) {
-	var li = document.createElement('li');
-	var div = document.createElement('div');
-	div.className = 'view';
 
-	var input = document.createElement('input');
-	input.className = 'toggle';
-	input.type = 'checkbox';
-
-	var label = document.createElement('label');
-	label.innerHTML = inputValue;
-
-	var button = document.createElement('button');
-	button.className = 'destroy';
-
-	div.appendChild(input);
-	div.appendChild(label);
-	div.appendChild(button);
-	li.appendChild(div);
+	var todoTemplate = _.template(
+		'<li>' +
+			'<div class="view">' +
+				'<input class="toggle" type="checkbox"></input>' +
+				'<label><%- value %></label>' +
+				'<button class="destroy"></button>' +
+			'</div>' +
+		'</li>'
+		);
+	
+	var li = todoTemplate({value: inputValue});
 
 	return li;
 }
@@ -32,8 +26,8 @@ function insertTODO(e) {
 	
 	if (keyCode === KEY_CODE_ENTER) {
 		var li = getTodo(this.value);
-		
-		todoList.appendChild(li);
+
+		todoList.insertAdjacentHTML('beforeend', li);
 		this.value = '';
 	}
 }
