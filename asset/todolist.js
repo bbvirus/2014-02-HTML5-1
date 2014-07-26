@@ -26,10 +26,10 @@ var addNewTodo = function(e){
 		$("#todo-list li:last-child").css("opacity", 1);
 		//var lastAppendedTodo = appendedTodo[0].lastElementChild;
 		//lastAppendedTodo.style.opacity = 1;
-		$("#todo-list li:last-child .toggle").on("click", completedTodo);
+		//$("#todo-list li:last-child .toggle").on("click", completedTodo);
 		//var toggle = lastAppendedTodo.querySelector(".toggle");
 		//toggle.addEventListener("click", completedTodo, false);
-		$("#todo-list li:last-child .destroy").on("click", destroyTodo);
+		//$("#todo-list li:last-child .destroy").on("click", destroyTodo);
 		//var button = lastAppendedTodo.querySelector(".destroy");
 		//button.addEventListener("click", destroyTodo, false);
 	}
@@ -88,6 +88,8 @@ var init = function() {
 	//document.getElementById("new-todo");
 	//elements.elNewTodo.addEventListener("keydown", addNewTodo, false);
 	$("#new-todo").on("keydown", addNewTodo);
+	$("#todo-list").on("click", ".toggle", completedTodo);
+	$("#todo-list").on("click", ".destroy", destroyTodo);
 	
 	utility.transitionEnd = featureDetector();
 }
