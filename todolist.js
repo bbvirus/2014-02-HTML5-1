@@ -10,13 +10,7 @@ function addTodo(e) {
 
 		// Mustache를 이용해 템플릿을 생성하고 todoElement에 저장해둔다.
 		var data = {contents: todoContents};
-		var template = "<li class=\"appending\">" +
-							"<div class=\"view\">" +
-								"<input class=\"toggle\" type=\"checkbox\">" +
-								"<label>{{contents}}</label>" +
-								"<button class=\"destroy\"></button>"+
-							"</div>" +
-						"</li>";
+		var template = document.getElementById("todoTemplate").innerHTML;
 		var todoElement = Mustache.to_html(template, data);
 
 		// todoElement를 todo-list 하위 엘리먼트로 넣어주고 new-todo의 입력칸을 깨끗하게 비워준다.
